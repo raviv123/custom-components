@@ -1,6 +1,21 @@
-<div [formGroup]="userForm">
+<!-- <div [formGroup]="userForm">
     <input type="text" formControlName="phone"/>
     <app-error-message [control]="userForm.controls['phone']"
         [validation]="{ messages: errorMessages || { required: 'This is required' }, errors: userForm.controls['phone'].errors }">
     </app-error-message>
-</div>
+</div> -->
+
+
+
+<form [formGroup]="form">
+    <app-custom-input-number
+      [(value)]="value"
+      [control]="form.controls['number']"
+      [hideArrows]="true"
+      [maxLength]="10" [errorMessages]="{ required: 'This field is required', pattern: 'Only numbers allowed' }"
+    ></app-custom-input-number>
+
+
+  
+     <button type="submit" [disabled]="form.invalid" (click)="submit()">Submit</button>
+  </form>

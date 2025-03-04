@@ -1,0 +1,11 @@
+<input
+    type="text"
+    [formControl]="control"
+    (input)="validateInput($event)"
+    (keypress)="restrictFunction($event)"
+    [class.hideArrows]="hideArrows" 
+  />
+
+  <app-error-message [control]="control"
+        [validation]="{ messages: errorMessages || { required: 'This is required' }, errors: control.errors }">
+    </app-error-message>
