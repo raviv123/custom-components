@@ -30,8 +30,9 @@ export class AppComponent {
   value!: string
   form = new FormGroup({
     number: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(10),
+      Validators.required, 
+      Validators.minLength(5), 
+      Validators.maxLength(10), 
       Validators.pattern(/^\d+$/),
     ]),
   });

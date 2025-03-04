@@ -7,5 +7,5 @@
   />
 
   <app-error-message [control]="control"
-        [validation]="{ messages: errorMessages || { required: 'This is required' }, errors: control.errors }">
+        [validation]="{ messages: errorMessages, errors: control.errors }">
     </app-error-message>

@@ -8,11 +8,11 @@
 
 
 <form [formGroup]="form">
-    <app-custom-input-number
-      [(value)]="value"
+        <app-custom-input-number
+        [(value)]="value"
       [control]="form.controls['number']"
       [hideArrows]="true"
-      [maxLength]="10" [errorMessages]="{ required: 'This field is required', pattern: 'Only numbers allowed' }"
+      [maxLength]="10" [errorMessages]="{ required: 'This field is required', minlength: 'min length' }"
     ></app-custom-input-number>
 
 

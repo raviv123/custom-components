@@ -18,18 +18,17 @@ export class CustomInputNumberComponent {
   @Output() valueChange = new EventEmitter();
 
   ngOnInit() {  
-    this.control.valueChanges.subscribe((value) => {
+  this.control.valueChanges.subscribe((value) => {
       this.valueChange.emit(value === '' ? '' : value);
     });
   }
 
   validateInput(event: any) {
-    let inputValue = event.target.value;
-    if (inputValue === '') {
+   this.value = event.target.value;
+    if (this.value === '') {
       return;
-    }  
-    this.control.setValue(inputValue, { emitEvent: false }); 
-    this.valueChange.emit(inputValue);
+    }
+    this.valueChange.emit(this.value);
   }
 
   restrictFunction(event: any) {
