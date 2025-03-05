@@ -17,7 +17,6 @@ export class CustomInputNumberComponent {
   @Input() hideArrows: boolean = false;
   @Input() control!: FormControl;
   @Input() allowDecimal: boolean = false;
-
   @Input() errorMessages: { [key: string]: string } = {};
 
   displayValue: string = '';

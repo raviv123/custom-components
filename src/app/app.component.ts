@@ -17,7 +17,7 @@ const errorMessages = {
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  //   errorMessages: object = errorMessages;
+    errorMessages: { [key: string]: string } = errorMessages;
 
   //   userForm: FormGroup = new FormGroup({
   //     phone: new FormControl('', [Validators.required, Validators.minLength(3),Validators.pattern('^[a-zA-Z]+$'),Validators.maxLength(10)])

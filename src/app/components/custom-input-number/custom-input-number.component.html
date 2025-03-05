@@ -2,5 +2,6 @@
   (input)="validateInput($event)" (keypress)="restrict($event)" [value]="displayValue" [class.hideArrows]="hideArrows"
   min="0" [attr.maxlength]="maxLength" />
 
-<app-error-message [control]="control" [validation]="{ messages: errorMessages, errors: control.errors }">
+<app-error-message [control]="control"
+    [validation]="{ messages: errorMessages, errors: control.errors }">
 </app-error-message>
