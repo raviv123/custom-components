@@ -9,7 +9,8 @@
   <app-custom-input-number [control]="form.controls['number']" [hideArrows]="true" [maxLength]="10"
     [allowDecimal]="true" [errorMessages]="{ required: 'This field is required', minlength: 'Min length required' }">
   </app-custom-input-number>
-  <app-custom-input-password [placeholder]="'Enter Password'" [control]="form.controls['password']" [errorMessages]="{ required: 'This field is required', 
+  <app-custom-input-password [placeholder]="'Enter Password'" [control]="form.controls['newPassword']" [errorMessages]="{ required: 'This field is required', 
   minlength: 'Min length required',  pattern :'Atleast one uppercase , one lowercase,  one number, one special character, Min 8+ characters'}"></app-custom-input-password>
+  <app-custom-input-password [placeholder]="'Enter Password'" [control]="form.controls['confirmPassword']" [errorMessages]="{ required: 'This field is required'}"></app-custom-input-password>
   <button type="submit" (click)="submit()">Submit</button>
 </form>

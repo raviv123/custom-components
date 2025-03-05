@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { CustomInputNumberComponent } from './components/custom-input-number/custom-input-number.component';
-import { minMaxLengthValidator } from './custom.validator';
+import { minMaxLengthValidator, passwordMatchValidator } from './custom.validator';
 import { CustomInputPasswordComponent } from './components/custom-input-password/custom-input-password.component';
 
 const errorMessages = {
@@ -41,12 +41,14 @@ export class AppComponent {
       Validators.required,
       minMaxLengthValidator(2, 10),
     ]),
-    password: new FormControl('', [
+    newPassword: new FormControl('', [
       Validators.required,
       Validators.minLength(8),
-      Validators.pattern('^(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{8,}$')
     ]),
-  });
+    confirmPassword: new FormControl('', [
+      Validators.required,
+    ]),
+  },passwordMatchValidator());
 
   submit() {
     if (this.form.valid) {
