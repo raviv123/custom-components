@@ -21,9 +21,9 @@ export class CustomInputNumberComponent {
 
   displayValue: string = '';
 
-  ngOnInit() {
-    this.displayValue = this.control.value?.toString() || '';
-  }
+  // ngOnInit() {
+  //   this.displayValue = this.control.value?.toString() || '';
+  // }
 
   validateInput(event: Event) {
     if (!this.allowDecimal) return;
