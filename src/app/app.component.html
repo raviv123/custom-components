@@ -5,17 +5,14 @@
     </app-error-message>
 </div> -->
 
-
-
 <form [formGroup]="form">
-        <app-custom-input-number
-        [(value)]="value"
-      [control]="form.controls['number']"
-      [hideArrows]="true"
-      [maxLength]="10" [errorMessages]="{ required: 'This field is required', minlength: 'min length' }"
-    ></app-custom-input-number>
+  <app-custom-input-number
+    [control]="form.controls['number']"
+    [hideArrows]="true"
+    [maxLength]="10"
+    [allowDecimal]="true"
+    [errorMessages]="{ required: 'This field is required', minlength: 'Min length required' }">
+  </app-custom-input-number>
 
-
-  
-     <button type="submit" [disabled]="form.invalid" (click)="submit()">Submit</button>
-  </form>
+  <button type="submit" (click)="submit()">Submit</button>
+</form>

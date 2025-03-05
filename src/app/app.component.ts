@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { ErrorMessageComponent } from './components/error-message/error-message.component';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomInputNumberComponent } from './components/custom-input-number/custom-input-number.component';
+import { minMaxLengthValidator } from './custom.validator';
 
 const errorMessages = {
   required: 'This is required',
@@ -27,18 +26,14 @@ export class AppComponent {
   //   title = 'dummyProject';
   // }
 
-  value!: string
   form = new FormGroup({
-    number: new FormControl('', [
-      Validators.required, 
-      Validators.minLength(5), 
-      Validators.maxLength(10), 
-      Validators.pattern(/^\d+$/),
-    ]),
+    number: new FormControl('', [Validators.required, minMaxLengthValidator(5,8)]),
   });
 
-
-  submit() {
-    console.log(this.form.value.number);
+  submit() { 
+    if (this.form.valid) {
+      console.log(this.form.value);
+      this.form.reset()
+    }
   }
 }
