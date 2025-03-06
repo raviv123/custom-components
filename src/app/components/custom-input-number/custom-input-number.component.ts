@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
-  selector: 'app-custom-input-number',
+  selector: 'd-input-number',
   standalone: true,
   imports: [ReactiveFormsModule, ErrorMessageComponent],
   templateUrl: './custom-input-number.component.html',
@@ -44,6 +44,8 @@ export class CustomInputNumberComponent {
   }
 
   restrict(event: KeyboardEvent): void {
+    console.log(this.control.errors);
+    
     const input = event.target as HTMLInputElement;
     if (
       this.maxLength &&

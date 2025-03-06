@@ -5,12 +5,12 @@ export function minMaxLengthValidator(minLength: number, maxLength: number) {
     const value = control.value?.toString() || '';
     if (value.length < minLength) {
       return {
-        minLength: { requiredLength: minLength, actualLength: value.length },
+        minlength: { requiredLength: minLength, actualLength: value.length },
       };
     }
     if (value.length > maxLength) {
       return {
-        maxLength: { requiredLength: maxLength, actualLength: value.length },
+        maxlength: { requiredLength: maxLength, actualLength: value.length },
       };
     }
     return null;

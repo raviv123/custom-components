@@ -3,7 +3,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ErrorMessageComponent } from '../error-message/error-message.component';
 
 @Component({
-  selector: 'app-custom-input-password',
+  selector: 'd-input-password',
   imports: [ReactiveFormsModule, ErrorMessageComponent],
   templateUrl: './custom-input-password.component.html',
   styleUrl: './custom-input-password.component.scss',
@@ -20,7 +20,9 @@ export class CustomInputPasswordComponent {
 
   validateInput(event: any) {}
 
-  restrict(event: any) {}
+  restrict(event: any) {
+    
+  }
 
   disablePaste(event: ClipboardEvent): void {
     event.preventDefault();
