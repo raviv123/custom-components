@@ -6,8 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { CustomInputNumberComponent } from './components/custom-input-number/custom-input-number.component';
-import { minMaxLengthValidator, passwordMatchValidator } from './custom.validator';
 import { CustomInputPasswordComponent } from './components/custom-input-password/custom-input-password.component';
+import { CustomValidators } from './custom.validator';
 
 const errorMessages = {
   required: 'This is required',
@@ -36,19 +36,28 @@ export class AppComponent {
   //   title = 'dummyProject';
   // }
 
-  form = new FormGroup({
-    number: new FormControl('', [
-      Validators.required,
-      minMaxLengthValidator(2, 10),
-    ]),
-    newPassword: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
-    ]),
-    confirmPassword: new FormControl('', [
-      Validators.required,
-    ]),
-  },passwordMatchValidator());
+  form = new FormGroup(
+    {
+      number: new FormControl('', [
+        Validators.required,
+        CustomValidators.minMaxLengthValidator(2, 10),
+      ]),
+      newPassword: new FormControl('', [
+        Validators.required,
+        Validators.minLength(8),
+        Validators.pattern(
+          '^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'
+        ),
+      ]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    },
+    {
+      validators: CustomValidators.fieldsMatchValidator(
+        'newPassword',
+        'confirmPassword'
+      ),
+    }
+  );
 
   submit() {
     if (this.form.valid) {

@@ -12,6 +12,8 @@ import { ErrorMessageComponent } from '../error-message/error-message.component'
 export class CustomInputNumberComponent {
   @Input() maxLength!: number;
   @Input() minLength!: number;
+  @Input() min!: number;
+  @Input() max!: number;
   @Input() placeholder: string = '';
   @Input() readonly: boolean = false;
   @Input() hideArrows: boolean = false;
@@ -33,19 +35,24 @@ export class CustomInputNumberComponent {
     // }
     // this.displayValue =  input.value;
     // this.control.setValue( input.value);
-
     if (input.value.includes('.')) {
       let parts = input.value.split('.');
       input.value = parts[0] + '.' + parts[1].slice(0, 2);
       if (this.control.value !== input.value) {
         this.control.setValue(input.value);
       }
+    } else if (!isNaN(Number(input.value))) {
+      if (this.min !== undefined && Number(input.value) < this.min) {
+        input.value = this.min.toString();
+      } else if (this.max !== undefined && Number(input.value) > this.max) {
+        input.value = this.max.toString();
+      }
     }
   }
 
   restrict(event: KeyboardEvent): void {
     console.log(this.control.errors);
-    
+
     const input = event.target as HTMLInputElement;
     if (
       this.maxLength &&
