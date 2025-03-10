@@ -1,0 +1,9 @@
+<gridster [options]="options">
+    @for(item of dashboard; track $index){
+    <gridster-item [item]="item">
+        <div class="widget-content">
+                      {{item['data']|json}}
+        </div>
+    </gridster-item>
+    }
+</gridster>
