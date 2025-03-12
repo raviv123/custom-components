@@ -1,0 +1,41 @@
+<div class="login-container">
+    <!-- Header (Custom or Default) -->
+    <ng-container *ngIf="headerTemplate; else defaultHeader">
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+    </ng-container>
+    <ng-template #defaultHeader>
+        <h2>Login</h2>
+    </ng-template>
+
+    <!-- Body (Custom or Default) -->
+    <form [formGroup]="form" (ngSubmit)="onSubmitClick()">
+        <ng-container *ngIf="bodyTemplate;else defaultBody">
+            <ng-container *ngTemplateOutlet="bodyTemplate"></ng-container>
+            <!-- ; context: { form: form } -->
+        </ng-container>
+
+
+        <ng-template #defaultBody>
+            <!-- <form [formGroup]="form"> //(ngSubmit)="onSubmit()" -->
+            <label>Username</label>
+            <d-input-number [control]="getFormControl('email')" [hideArrows]="true" [maxLength]="10"
+                [allowDecimal]="true">
+            </d-input-number>
+            <label>Password</label>
+            <d-input-password [placeholder]="'Enter Password'"
+                [control]="getFormControl('password')"></d-input-password>
+            <!-- </form> -->
+        </ng-template>
+
+        <!-- Footer (Custom or Default) -->
+        <ng-container *ngIf="footerTemplate; else defaultFooter">
+            <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+        </ng-container>
+        <ng-template #defaultFooter>
+            <button type="submit">Login</button>
+            <a href="#">Forgot Password?</a>
+            <a href="#">Sign Up</a>
+        </ng-template>
+    </form>
+
+</div>

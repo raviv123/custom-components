@@ -1,0 +1,8 @@
+<!-- <div id="google-login-button" [style]="cssStyle" class="btn btn-primary" (click)="googleAuthenticate()"></div> -->
+
+<button class="icon-btn" [id]="buttonUniqueIdName" (click)="onClick()">
+    <i [ngClass]="iconClass"></i>
+    @if(label) {
+        <span >{{ label }}</span>
+    }
+  </button>

@@ -6,7 +6,28 @@ import { AbstractControl } from '@angular/forms';
   selector: 'app-error-message',
   imports: [CommonModule],
   standalone: true,
-  templateUrl: './error-message.component.html',
+  templateUrl:`<ng-container *ngIf="(errorKeys.length === 1) || !showMultipleErrors; else multipleErrors">
+    <ng-container 
+      *ngTemplateOutlet="messageTemplate; context: { $implicit: _validation.messages[errorKeys[0]] }">
+    </ng-container>
+  </ng-container>
+  
+  <ng-template #multipleErrors>
+    <ng-container *ngFor="let error of errorKeys">
+      <ng-container 
+        *ngTemplateOutlet="messageTemplate; context: { $implicit: _validation.messages[error] }">
+      </ng-container>
+    </ng-container>
+  </ng-template>
+  
+  <ng-template #messageTemplate let-items> 
+    <span *ngIf="(formControl().touched || markAsTouched) && formControl().errors?.[errorKeys[0]]"
+          class="dt-validation-message" 
+          [style]="cssStyle"> 
+      {{ items }}
+    </span>
+  </ng-template>
+  `,
   styleUrl: './error-message.component.scss'
 })
 export class ErrorMessageComponent {

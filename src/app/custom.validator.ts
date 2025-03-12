@@ -40,3 +40,73 @@ export class CustomValidators {
     };
   }
 }
+
+export function passwordMatchValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const formGroup = control as FormGroup;
+    const newPassword = formGroup.get('newPassword')?.value;
+    const confirmPassword = formGroup.get('confirmPassword')?.value;
+
+    if (newPassword !== confirmPassword) {
+      return { passwordMismatch: true };
+    }
+
+    return null;
+  };
+}
+
+export function minDateValidator(minDate: Date): ValidatorFn {
+  return (control: AbstractControl) => {
+    if (!control.value) {
+      return null; // Return null if the field is empty (handled by required validator)
+    }
+
+    const inputDate = new Date(control.value).getTime();
+    const min = minDate.getTime();
+
+    if (inputDate < min) {
+      return { minDate: { requiredMin: minDate, actual: control.value } };
+    }
+
+    return null; // No error
+  };
+}
+
+export function maxDateValidator(maxDate: Date): ValidatorFn {
+  return (control: AbstractControl) => {
+    if (!control.value) {
+      return null; // Return null if the field is empty (handled by required validator)
+    }
+
+    const inputDate = new Date(control.value).getTime();
+    const max = maxDate.getTime();
+
+    if (inputDate > max) {
+      return { maxDate: { requiredMax: maxDate, actual: control.value } };
+    }
+
+    return null; // No error
+  };
+}
+
+export function dateRangeValidator(minDate: Date, maxDate: Date): ValidatorFn {
+  return (control: AbstractControl) => {
+    if (!control.value) return null; // Ignore empty values (handled by required validator)
+
+    const inputTimestamp = new Date(control.value).getTime();
+    const minTimestamp = minDate.getTime();
+    const maxTimestamp = maxDate.getTime();
+
+    if (isNaN(inputTimestamp)) {
+      return { invalidDate: { actual: control.value } };
+    }
+    if (inputTimestamp < minTimestamp) {
+      return { noValidDate: { requiredMin: minDate.toISOString().split('T')[0], actual: control.value } };
+    }
+    if (inputTimestamp > maxTimestamp) {
+      return { noValidDate: { requiredMax: maxDate.toISOString().split('T')[0], actual: control.value } };
+    }
+
+    return null; // No error
+  };
+}
