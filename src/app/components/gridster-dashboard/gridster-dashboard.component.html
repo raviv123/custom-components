@@ -1,0 +1,8 @@
+<gridster 
+     [options]="gridsterOptions">
+  @for(item of items; track $index){
+      <div class="grid-item">
+        <h3>{{ item }}</h3>
+      </div>
+  }
+</gridster>
