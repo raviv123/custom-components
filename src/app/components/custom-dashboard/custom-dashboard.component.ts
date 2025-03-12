@@ -21,15 +21,12 @@ export class CustomDashboardComponent {
     
   }
 
-  removeItem(id: number) {
-    this.dashboard.splice(
-      this.dashboard.findIndex((item) => item['data'].widgetId === id),
-      1
-    );
+  removeItem(item: GridsterItem) {
+    this.dashboard.splice(this.dashboard.indexOf(item), 1)
     sessionStorage.setItem('gridData', JSON.stringify(this.dashboard));
   }
 
-  // addItem() {
-  //   this.dashboard.push({ cols: 1, rows: 1, y: 0, x: 0 });
-  // }
+  addItem() {
+    this.dashboard.push({ cols: 1, rows: 1, y: 0, x: 0 });
+  }
 }

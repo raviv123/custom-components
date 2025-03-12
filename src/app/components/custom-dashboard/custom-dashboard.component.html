@@ -1,16 +1,11 @@
-<div class="sideBar">
-    @for(widgetId of widgetIds; track $index){
-        <button (click)="removeItem(widgetId)">Remove {{widgetId}}</button>
-    }
-</div>
-
 <gridster [options]="options">
     @for(item of dashboard; track $index){
-    <gridster-item [item]="item">
-        <div class="widget-content">
-                      {{item['data']|json}}
+        <gridster-item [item]="item">
+            <div class="widget-content">
+                {{item['data']|json}}
+                <button (click)="removeItem(item)">Remove</button>
         </div>
     </gridster-item>
     }
 </gridster>
-<!-- <button (click)="addItem()">Add Item</button> -->
+<button (click)="addItem()">Add Item</button>
