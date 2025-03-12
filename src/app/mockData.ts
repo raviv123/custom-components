@@ -1,5 +1,8 @@
 export const dashboard = [
   {
+   widgetId:1,
+   fixed:true,
+   widgetData:[{
     greeting: 'Good morning!',
     reminder: 'You have reminders left for today, please check',
     notifications: [
@@ -7,13 +10,21 @@ export const dashboard = [
         message: 'John Doe has been successfully onboarded',
       },
     ],
+  }]
   },
   {
+    widgetId:2,
+    fixed:true,
+    widgetData:[{
     message:
       'You onboarded 2 organizations yesterday, add more today by clicking the button.',
+   }]
   },
 
   {
+    widgetId:3,
+    fixed:true,
+    widgetData:[{
     organization_listing: [
       {
         name: 'Tech Innovators',
@@ -25,9 +36,13 @@ export const dashboard = [
         name: 'Digital Solutions Inc',
       },
     ],
+  }]
   },
 
   {
+    widgetId:4,
+    fixed:false,
+    widgetData:[{
     total_seekers: 528,
     list: [
       {
@@ -43,8 +58,12 @@ export const dashboard = [
         organization: 'Digital Solutions Inc',
       },
     ],
+  }]
   },
   {
+    widgetId:5,
+    fixed:false,
+    widgetData:[{
     organization_invites: [
       {
         name: 'HealthCarePlus',
@@ -56,8 +75,12 @@ export const dashboard = [
         name: 'City Care',
       },
     ],
+  }]
   },
   {
+    widgetId:6,
+    fixed:false,
+    widgetData:[{
     top_trending_assessments: [
       {
         title: 'PHQ-9',
@@ -72,5 +95,6 @@ export const dashboard = [
         questions: 15,
       },
     ],
+  }]
   },
 ];

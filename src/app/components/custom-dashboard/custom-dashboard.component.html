@@ -1,3 +1,9 @@
+<div class="sideBar">
+    @for(widgetId of widgetIds; track $index){
+        <button (click)="removeItem(widgetId)">Remove {{widgetId}}</button>
+    }
+</div>
+
 <gridster [options]="options">
     @for(item of dashboard; track $index){
     <gridster-item [item]="item">
@@ -7,3 +13,4 @@
     </gridster-item>
     }
 </gridster>
+<!-- <button (click)="addItem()">Add Item</button> -->

@@ -1,21 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { CustomInputNumberComponent } from './components/custom-input-number/custom-input-number.component';
-import { CustomInputPasswordComponent } from './components/custom-input-password/custom-input-password.component';
-import { CustomValidators } from './custom.validator';
-import { CustomDashboardComponent } from './components/custom-dashboard/custom-dashboard.component';
-import {
-  CompactType,
   GridsterConfig,
   GridsterItem,
+  GridsterItemComponentInterface,
   GridType,
 } from 'angular-gridster2';
 import { ApiService } from './apiService/api.service';
+import { CustomDashboardComponent } from './components/custom-dashboard/custom-dashboard.component';
+import { isPlatformBrowser } from '@angular/common';
 
 const errorMessages = {
   required: 'This is required',
@@ -74,37 +67,56 @@ export class AppComponent {
   //     this.form.reset();
   //   }
   // }
-  options!: GridsterConfig; 
-  dashboard!: GridsterItem[] 
-  constructor(private apiService: ApiService) {
+  data: any;
+  isBrowser: boolean;
+  options!: GridsterConfig;
+  dashboard!: GridsterItem[];
+  constructor(
+    private apiService: ApiService,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     this.fetchGridData();
   }
 
   // grids: Array<{ options: GridsterConfig; dashboard: GridsterItem[] }> = [];
 
-
   private fetchGridData() {
+    if (this.isBrowser) {
+      this.data = sessionStorage.getItem('gridData');
+    }
     this.apiService.getDashboard().subscribe((items: any) => {
-            this.options= this.createGridOptions()
-          this.dashboard= items.map((item:any, index:number) => ({
-            x: index, y:index , cols: 1, rows: 1, 
-            data: item 
-          }));
-      
+      this.options = this.createGridOptions();
+
+      if (this.data) {
+        this.dashboard = JSON.parse(this.data);
+      } else {
+        this.dashboard = items.map((item: any, index: number) => ({
+          x: index % 3,
+          y: Math.floor(index / 3),
+          cols: 1,
+          rows: 1,
+          data: item,
+          resizeEnabled: item.fixed ? false : true,
+          dragEnabled: item.fixed ? false : true,
+        }));
+
+        this.saveGrids();
+      }
     });
   }
-
- private createGridOptions(): GridsterConfig {
+  private createGridOptions(): GridsterConfig {
     return {
-      // disableAutoPositionOnConflict: true,
+      // disableAutoPositionOnConflict: true, // Disable auto-positioning on conflict
       margin: 5,
-      compactType: CompactType.CompactLeft,
-      draggable: { enabled: true, dropOverItems: false },
-      resizable: { enabled: true },
-      swap: true,
-      pushItems: true,
-      gridType: GridType.VerticalFixed,
-      displayGrid: 'onDrag&Resize',
+      // compactType: CompactType.CompactLeft, //controls how items are rearranged when a new item is added or a widget is removed, (compactUp, compactLeft, compactRight, compactDown)
+      draggable: { enabled: true, //gridster configuration to allow items to be dragged
+        dropOverItems: false },
+      resizable: { enabled: true }, //enable/disable resizing of items
+      swap: true, //swap items when they are dragged
+      pushItems: true, //enable/disable item push on resize or drag
+      gridType: GridType.VerticalFixed, //defines how the grid behaves
+      displayGrid: 'none', //show/hide grids
       minItemCols: 1,
       maxItemCols: 4,
       outerMargin: true,
@@ -116,64 +128,27 @@ export class AppComponent {
       defaultItemCols: 2,
       defaultItemRows: 2,
       itemChangeCallback: (item, itemComponent) => {
-            console.log('Item changed:', item);
-          },
+        this.saveGrids();
+      },
+      itemResizeCallback: (
+        item: GridsterItem,
+        itemComponent: GridsterItemComponentInterface
+      ) => {
+        this.saveGrids();
+      },
+      itemRemovedCallback: (item, itemComponent) => {
+        this.saveGrids();
+      },
+
+      gridSizeChangedCallback: (newSize: any) => {
+        this.saveGrids();
+      },
     };
   }
 
-  // addGrid() {
-  //   this.grids.push({
-  //     options: this.createGridOptions(),
-  //     dashboard: [],
-  //   });
-  // }
-
-  // addGrid() {
-  //   const newGrid = {
-  //     options: {
-  //       // disableAutoPositionOnConflict :true, //prevent auto-position
-  //       margin: 5, //space between items
-  //       compactType: CompactType.CompactLeft, //manages the arrangement of grid items to eliminate empty spaces
-  //       draggable: { enabled: true, dropOverItems: false }, // Items can be dragged
-  //       resizable: {
-  //         enabled: true,
-  //         handles: { s: false, e: false, n: true, w: true },
-  //       }, // Resizable in certain directions
-  //       swap: true, // Allows items to swap places when dragged
-  //       pushItems: true, // Pushes other items when dragging
-  //       gridType: GridType.VerticalFixed,
-  //       displayGrid: 'onDrag&Resize',
-  //       minItemCols: 1, // Minimum width of a grid item
-  //       maxItemCols: 4, // Maximum width of a grid item
-  //       outerMargin: true, //grid uses the body width as a breakpoint
-  //       minCols: 3,
-  //       maxCols: 3,
-  //       mobileBreakpoint: 600,
-  //       minRows: 4,
-  //       maxRows: 12,
-  //       defaultItemCols: 2,
-  //       defaultItemRows: 2,
-  //       // itemChangeCallback: (item, itemComponent) => {
-  //       //   console.log('Item changed:', item);
-  //       // },
-  //     } as GridsterConfig,
-  //     dashboard: [
-  //       {
-  //         cols: 1,
-  //         rows: 1,
-  //         x: 0,
-  //         y: 0,
-  //         dragEnabled: false,
-  //         resizeEnabled: false,
-  //       },
-  //       { cols: 2, rows: 2, y: 0, x: 2 },
-  //       { cols: 1, rows: 1, y: 1, x: 0 },
-  //     ],
-  //   };
-  //   this.grids.push(newGrid);
-  // }
-
-  // removeGrid(index: number) {
-  //   this.grids.splice(index, 1);
-  // }
+  saveGrids() {
+    if (this.isBrowser) {
+      sessionStorage.setItem('gridData', JSON.stringify(this.dashboard));
+    }
+  }
 }

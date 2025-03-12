@@ -12,14 +12,22 @@ import { GridsterConfig, GridsterItem } from 'angular-gridster2';
 export class CustomDashboardComponent {
   @Input() options!: GridsterConfig;
   @Input() dashboard!: GridsterItem[];
+  widgetIds: number[]=[];
 
-  // ngOnInit() {
-  //   console.log('Received dashboard data:', this.dashboard);
-  // }
+  ngOnInit() {
+ this.dashboard.map((item) => {
+      this.widgetIds.push(item['data'].widgetId);
+    });  
+    
+  }
 
-  // removeItem(item: GridsterItem) {
-  //   this.dashboard.splice(this.dashboard.indexOf(item), 1);
-  // }
+  removeItem(id: number) {
+    this.dashboard.splice(
+      this.dashboard.findIndex((item) => item['data'].widgetId === id),
+      1
+    );
+    sessionStorage.setItem('gridData', JSON.stringify(this.dashboard));
+  }
 
   // addItem() {
   //   this.dashboard.push({ cols: 1, rows: 1, y: 0, x: 0 });
