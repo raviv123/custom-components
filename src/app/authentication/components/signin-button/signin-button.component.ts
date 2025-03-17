@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-google-sign-in',
+  selector: 'signin-button',
   imports: [CommonModule],
-  templateUrl: './google-sign-in.component.html',
-  styleUrl: './google-sign-in.component.scss'
+  templateUrl: './signin-button.component.html',
+  styleUrl: './signin-button.component.scss'
 })
-export class GoogleSignInComponent {
+export class SignInButtonComponent {
   @Output() onSignIn = new EventEmitter();
   @Input() cssStyle!: { [klass: string]: string | number };
   @Input() buttonUniqueIdName!: string;

@@ -1,6 +1,6 @@
 import { Component, ContentChild, Input, Output, TemplateRef, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { auth } from '../../services/dits-authentication.service';
+import { auth } from '../../services/gAuth.service';
 
 
 @Component({

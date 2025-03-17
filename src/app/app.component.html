@@ -62,5 +62,14 @@
   </ng-template> -->
 </app-login>
 
-<app-google-sign-in [buttonUniqueIdName]="googleButtonElement" [iconClass]="'pi pi-google'" [label]="'Sign in With Google'"
-  (onSignIn)="onGoogleSignIn()"></app-google-sign-in>
+<signin-button [buttonUniqueIdName]="googleButtonElement" [iconClass]="'pi pi-google'" [label]="'Sign in With Google'"
+  (onSignIn)="onGoogleSignIn()"></signin-button>0
+
+
+<signin-button [buttonUniqueIdName]="microsoftButtonElement" [iconClass]="'pi pi-google'"
+  [label]="'Sign in With Microsoft'" (onSignIn)="onMicrosoftSignIn()"></signin-button>
+
+
+<button *ngIf="showLogoutButton" (click)="onLogoutClick()">logout</button>
+
+<router-outlet></router-outlet>
