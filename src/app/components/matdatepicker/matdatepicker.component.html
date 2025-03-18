@@ -1,19 +1,48 @@
-
-<mat-form-field>
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-
-<mat-form-field>
-    <mat-label>Enter a date range</mat-label>
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date">
-      <input matEndDate placeholder="End date">
+@if(dateRange) {
+<mat-form-field [appearance]="appearance" [floatLabel]="floatLabel">
+    <mat-label>{{placeholder || 'Enter a date range'}}</mat-label>
+    <mat-date-range-input [rangePicker]="picker" [disabled]="disabled">
+        <input matStartDate [formControl]="startControl" [readonly]="onlyInputDisabled"
+            [placeholder]="startDatePlaceholder" [disabled]="disabled" (dateChange)="onStartDateChange($event)"
+            (dateInput)="onStartDateInput($event)" (blur)="onTouched()">
+        <input matEndDate [formControl]="endControl" [readonly]="onlyInputDisabled" [placeholder]="endDatePlaceholder"
+            [disabled]="disabled" (dateChange)="onStartDateChange($event)" (blur)="onTouched()" (dateInput)="onStartDateInput($event)">
     </mat-date-range-input>
-    <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-  </mat-form-field>
+    @if(showHint) {
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    }
+    <mat-datepicker-toggle matIconSuffix [for]="picker"
+        [disabled]="disabled || overlayDisabled"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker [startView]="startView" [startAt]="startAt" (opened)="onCalendarOpened()"
+        (closed)="onCalendarClosed()" (monthSelected)="onMonthSelected($event)" (yearSelected)="onYearSelected($event)">
+        @if(showActionButtons) {
+        <mat-date-range-picker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button matDatepickerApply>Apply</button>
+        </mat-date-range-picker-actions>
+        }
+    </mat-date-range-picker>
+</mat-form-field>
+}
+@else {
+<mat-form-field [appearance]="appearance" [floatLabel]="floatLabel">
+    <mat-label>{{placeholder || 'Choose a date'}}</mat-label>
+    <input matInput [formControl]="control" [matDatepicker]="picker" [readonly]="onlyInputDisabled"
+        [disabled]="disabled" (dateInput)="onDateSelected($event)" (blur)="onTouched()">
+    @if(showHint) {
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    }
+    <mat-datepicker-toggle matIconSuffix [for]="picker"
+        [disabled]="disabled || overlayDisabled"></mat-datepicker-toggle>
+    <mat-datepicker #picker [startView]="startView" [startAt]="startAt" (opened)="onCalendarOpened()" (closed)="onCalendarClosed()"
+        (monthSelected)="onMonthSelected($event)" (yearSelected)="onYearSelected($event)"
+        >
+        @if(showActionButtons) {
+        <mat-date-range-picker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button matDatepickerApply>Apply</button>
+        </mat-date-range-picker-actions>
+        }
+    </mat-datepicker>
+</mat-form-field>
+}
