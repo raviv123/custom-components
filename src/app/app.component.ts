@@ -16,6 +16,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
 import { MicrosoftAuthService } from './authentication/services/microsoft-auth.service'; // Import MicrosoftAuthService
 import { CommonModule } from '@angular/common';
+import { MatdatepickerComponent } from './components/matdatepicker/matdatepicker.component';
 
 interface AuthParams {
   client_id: string;
@@ -39,13 +40,11 @@ declare var google: any;
   selector: 'app-root',
   imports: [
     ReactiveFormsModule,
-    CustomInputNumberComponent,
-    CustomInputPasswordComponent,
     AuthenticationModule,
-    SignInButtonComponent,
     FontAwesomeModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatdatepickerComponent, // Add AppDatepickerComponent to imports
   ], 
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -93,19 +92,22 @@ export class AppComponent {
   errorMessages: { [key: string]: string } = errorMessages;
 
   form = new FormGroup({
-    number: new FormControl('', [
+    // dob: new FormControl('', [
+    //   Validators.required
+    // ]),
+    startControl: new FormControl('', [
       Validators.required
     ]),
-    newPassword: new FormControl('', [
-      Validators.required,
-      Validators.minLength(8),
+    endControl: new FormControl('', [
+      Validators.required
     ]),
   }); 
 
   submit() {
     if (this.form.valid) {
       console.log(this.form.value);
-      this.form.reset();
+    } else {
+      console.log('Form is invalid');
     }
   }
 

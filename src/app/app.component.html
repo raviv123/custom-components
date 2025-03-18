@@ -1,75 +1,15 @@
-<!-- <div [formGroup]="userForm">
-    <input type="text" formControlName="phone"/>
-    <app-error-message [control]="userForm.controls['phone']"
-        [validation]="{ messages: errorMessages || { required: 'This is required' }, errors: userForm.controls['phone'].errors }">
-    </app-error-message>
-</div> -->
 
-<!-- <form [formGroup]="form">
-  <d-input-number [control]="form.controls['number']" [hideArrows]="true" [maxLength]="10" [allowDecimal]="true"
-    [errorMessages]="{ required: 'This field is required', minlength: 'Min length required' }">
-  </d-input-number>
-  <d-input-password [placeholder]="'Enter Password'" [control]="form.controls['newPassword']"
-    [errorMessages]="{ required: 'This field is required', 
-  minlength: 'Min length required',  pattern :'Atleast one uppercase , one lowercase,  one number, one special character, Min 8+ characters'}"></d-input-password>
-  <d-input-password [placeholder]="'Enter Password'" [control]="form.controls['confirmPassword']"
-    [errorMessages]="{ required: 'This field is required'}"></d-input-password>
-  <button type="submit" (click)="submit()">Submit</button>
 
-  <input type="date" [formControl]="form.controls['dob']">
-  <app-error-message [control]="form.controls['dob']"
-    [validation]="{ messages: {minDate: 'min Date', maxDate: 'max Date', 'noValidDate' : 'Date should be in bw 1 and 10'}, errors: form.controls['dob'].errors }">
-  </app-error-message>
-</form> -->
+<form [formGroup]="form">
+  <app-matdatepicker [dateRange]="false" [startControl]="form.controls['startControl']" [endControl]="form.controls['endControl']" [overlayDisabled]="false" [onlyInputDisabled]="true"></app-matdatepicker>
+  <button (click)="submit()"></button>
+</form>
+
+{{form.value | json}}
 
 
 
-<ng-template #customInput let-field>
-  <d-input-number [control]="form.controls['number']" [hideArrows]="true" [maxLength]="10" [allowDecimal]="true"
-    [errorMessages]="{ required: 'This field is required', minlength: 'Min length required' }">
-  </d-input-number>
-
-  <d-input-password [placeholder]="'Enter Password'" [control]="form.controls['newPassword']"
-    [errorMessages]="{ required: 'This field is required', 
-  minlength: 'Min length required',  pattern :'Atleast one uppercase , one lowercase,  one number, one special character, Min 8+ characters'}"></d-input-password>
 
 
-</ng-template>
-
-<app-login [form]="form">
-  <ng-template #headerTemplate>
-    <h1>Login component</h1>
-  </ng-template>
-
-  <ng-template #bodyTemplate>
-    <!-- <form [formGroup]="form"> -->
-    <label>Email:</label>
-    <d-input-number [control]="form.controls['number']" [hideArrows]="true" [maxLength]="10" [allowDecimal]="true"
-      [errorMessages]="{ required: 'This field is required', minlength: 'Min length required' }">
-    </d-input-number>
-
-    <label>Password:</label>
-    <d-input-password [placeholder]="'Enter Password'" [control]="form.controls['newPassword']"
-      [errorMessages]="{ required: 'This field is required', 
-  minlength: 'Min length required',  pattern :'Atleast one uppercase , one lowercase,  one number, one special character, Min 8+ characters'}">
-    </d-input-password>
-    <!-- </form> -->
-
-  </ng-template>
-
-  <!-- <ng-template #footerTemplate>
-    <button type="submit">Login</button>
-  </ng-template> -->
-</app-login>
-
-<signin-button [buttonUniqueIdName]="googleButtonElement" [iconClass]="'pi pi-google'" [label]="'Sign in With Google'"
-  (onSignIn)="onGoogleSignIn()"></signin-button>0
 
 
-<signin-button [buttonUniqueIdName]="microsoftButtonElement" [iconClass]="'pi pi-google'"
-  [label]="'Sign in With Microsoft'" (onSignIn)="onMicrosoftSignIn()"></signin-button>
-
-
-<button *ngIf="showLogoutButton" (click)="onLogoutClick()">logout</button>
-
-<router-outlet></router-outlet>
