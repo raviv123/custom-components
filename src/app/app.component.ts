@@ -62,12 +62,12 @@ export class AppComponent {
   //     console.log(this.form.value);
   //     this.form.reset();
   //   }
-  // }
-  otpControl = new FormControl('');
-  otpControl1 = new FormControl('');
+  // // }
+  // otpControl = 
+  // otpControl1 = new FormControl('');
   form = new FormGroup({
-    otp: this.otpControl,
-    otp1: this.otpControl1,
+    otp: new FormControl(''),
+    otp1: new FormControl('')
   });
 
   submit() {

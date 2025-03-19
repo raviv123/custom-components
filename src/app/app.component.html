@@ -35,7 +35,7 @@
 <!-- <app-otp-input [type]="'alphanumeric'" [length]="6" ></app-otp-input> -->
 
 <form [formGroup]="form">
-  <app-otp-input [control]="otpControl" [length]="4" [type]="'numeric'"></app-otp-input>
-  <app-otp-input [control]="otpControl1" [length]="6" [type]="'alphanumeric'" [hyphen]="true"></app-otp-input>
+  <app-otp-input [control]="form.controls.otp" [length]="4" [type]="'numeric'"></app-otp-input>
+  <app-otp-input [control]="form.controls.otp1" [length]="6" [type]="'alphanumeric'" [hyphen]="true"></app-otp-input>
   <button (click)="submit()">Submit</button>
 </form>
