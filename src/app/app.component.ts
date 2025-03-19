@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  ReactiveFormsModule,
-  Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
-import { CustomInputNumberComponent } from './components/custom-input-number/custom-input-number.component';
-import { CustomInputPasswordComponent } from './components/custom-input-password/custom-input-password.component';
-import { CustomValidators } from './custom.validator';
+import { OtpInputComponent } from './components/otp-input/otp-input/otp-input.component';
 
 const errorMessages = {
   required: 'This is required',
@@ -20,8 +17,9 @@ const errorMessages = {
   selector: 'app-root',
   imports: [
     ReactiveFormsModule,
-    CustomInputNumberComponent,
-    CustomInputPasswordComponent,
+    // CustomInputNumberComponent,
+    // CustomInputPasswordComponent,
+    OtpInputComponent,
   ], //ErrorMessageComponent,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -36,33 +34,44 @@ export class AppComponent {
   //   title = 'dummyProject';
   // }
 
-  form = new FormGroup(
-    {
-      number: new FormControl('', [
-        Validators.required,
-        CustomValidators.minMaxLengthValidator(2, 10),
-      ]),
-      newPassword: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(
-          '^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'
-        ),
-      ]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    },
-    {
-      validators: CustomValidators.fieldsMatchValidator(
-        'newPassword',
-        'confirmPassword'
-      ),
-    }
-  );
+  // form = new FormGroup(
+  //   {
+  //     number: new FormControl('', [
+  //       Validators.required,
+  //       CustomValidators.minMaxLengthValidator(2, 10),
+  //     ]),
+  //     newPassword: new FormControl('', [
+  //       Validators.required,
+  //       Validators.minLength(8),
+  //       Validators.pattern(
+  //         '^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'
+  //       ),
+  //     ]),
+  //     confirmPassword: new FormControl('', [Validators.required]),
+  //   },
+  //   {
+  //     validators: CustomValidators.fieldsMatchValidator(
+  //       'newPassword',
+  //       'confirmPassword'
+  //     ),
+  //   }
+  // );
+
+  // submit() {
+  //   if (this.form.valid) {
+  //     console.log(this.form.value);
+  //     this.form.reset();
+  //   }
+  // }
+  otpControl = new FormControl('');
+  otpControl1 = new FormControl('');
+  form = new FormGroup({
+    otp: this.otpControl,
+    otp1: this.otpControl1,
+  });
 
   submit() {
-    if (this.form.valid) {
-      console.log(this.form.value);
-      this.form.reset();
-    }
+    console.log(this.form.value);
+    this.form.reset();
   }
 }
