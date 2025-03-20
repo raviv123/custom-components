@@ -1,0 +1,20 @@
+<!-- <div [formGroup]="formGroup">
+      <mat-checkbox [formControlName]="checkboxKey">
+        {{ label }}
+      </mat-checkbox>
+    </div> -->
+
+<div [formGroup]="formGroup">
+    <mat-checkbox [formControlName]="checkboxKey" [indeterminate]="isIndeterminate"
+        (change)="onCheckboxChange($event.checked)">
+        {{ label }}
+    </mat-checkbox>
+
+    @if(children?.length){
+        @for(child of children; track $index){
+        <mat-checkbox [formControlName]="child.key" (change)="updateParentState()">
+            {{ child.label }}
+        </mat-checkbox>
+        }
+    }
+</div>
