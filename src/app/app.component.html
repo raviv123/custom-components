@@ -62,7 +62,7 @@
 
 
 
-<app-timer [duration]="120" (timerEnd)="onTimerEnd()">
+<app-timer [duration]="150" (timerEnd)="onTimerEnd()">
   <ng-template let-time="remainingTime" let-formatted="formattedTime" let-reset="reset">
     @if (time > 0) {
       Resend OTP in <strong>{{ formatted }}</strong>.

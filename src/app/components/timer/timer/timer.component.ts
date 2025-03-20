@@ -6,19 +6,22 @@ import { Component, ContentChild, EventEmitter, Input, OnDestroy, OnInit, Output
   standalone: true,
   imports: [CommonModule, NgTemplateOutlet],
   template: `
-    <ng-container 
-      *ngTemplateOutlet="messageTemplate; context: { 
-        remainingTime: timeLeft, 
-        formattedTime: formattedTime, 
-        reset: resetTimer.bind(this) 
-      }">
-    </ng-container>
+    @if (messageTemplate) {
+      <ng-container 
+        *ngTemplateOutlet="messageTemplate; context: { 
+          remainingTime: timeLeft, 
+          formattedTime: formattedTime, 
+          reset: resetTimer.bind(this) 
+        }">
+      </ng-container>
+    } @else {
+      <span>{{ formattedTime }}</span>
+    }
   `,
 })
 export class TimerComponent implements OnInit, OnDestroy {
   @Input() duration: number = 30;
   @Output() timerEnd = new EventEmitter<void>();
-
   @ContentChild(TemplateRef, { static: false }) messageTemplate!: TemplateRef<any>;
 
   timeLeft!: number;
