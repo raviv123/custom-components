@@ -1,0 +1,39 @@
+<div class="time-picker-wrapper" (click)="$event.stopPropagation()">
+    <div *ngIf="!range" class="time-input" (click)="toggleTimePicker()">
+        <input type="text" [value]="timeForm.get('time')?.value" readonly />
+        <span class="clock-icon">🕒</span>
+    </div>
+
+    <div *ngIf="range" class="time-range-wrapper">
+        <div class="time-input" (click)="toggleTimePickerStart()">
+            <input type="text" [value]="timeForm.get('startTime')?.value" readonly placeholder="Start Time" />
+            <span class="clock-icon">🕒</span>
+        </div>
+        <div class="time-divider">-</div>
+        <div class="time-input" (click)="toggleEndTimePickerEnd()">
+            <input type="text" [value]="timeForm.get('endTime')?.value" readonly placeholder="End Time" />
+            <span class="clock-icon">🕒</span>
+        </div>
+    </div>
+
+    <div class="time-picker-container" #timePickerContainer [class.open]="isEndOpen || isStartOpen || isOpen">
+        <ul class="time-options">
+            <li *ngFor="let time of amTimeOptions" 
+                [class.selected]="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value"
+                (click)="onTimeSelected(time, isEndOpen)">
+                {{ time }}
+                <span *ngIf="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value" class="tick-mark">✔</span>
+            </li>
+            <li *ngFor="let time of pmTimeOptions" 
+                [class.selected]="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value"
+                (click)="onTimeSelected(time, isEndOpen)">
+                {{ time }}
+                <span *ngIf="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value" class="tick-mark">✔</span>
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="range" class="time-actions">
+        <button type="button" (click)="applyTimeRange()" class="apply-btn">Apply</button>
+    </div>
+</div>

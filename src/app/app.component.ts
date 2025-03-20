@@ -8,6 +8,8 @@ import {
 import { CustomInputNumberComponent } from './components/custom-input-number/custom-input-number.component';
 import { CustomInputPasswordComponent } from './components/custom-input-password/custom-input-password.component';
 import { CustomValidators } from './custom.validator';
+import { TimepickerComponent } from './components/timepicker/timepicker.component';
+import { CommonModule } from '@angular/common';
 
 const errorMessages = {
   required: 'This is required',
@@ -20,8 +22,7 @@ const errorMessages = {
   selector: 'app-root',
   imports: [
     ReactiveFormsModule,
-    CustomInputNumberComponent,
-    CustomInputPasswordComponent,
+    TimepickerComponent
   ], //ErrorMessageComponent,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

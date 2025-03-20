@@ -5,7 +5,9 @@
     </app-error-message>
 </div> -->
 
-<form [formGroup]="form">
+<app-timepicker [interval]="120"></app-timepicker>
+
+<!-- <form [formGroup]="form">
   <d-input-number [control]="form.controls['number']" [min]="0" [max]="100" [hideArrows]="true" [maxLength]="10"
     [allowDecimal]="true" [errorMessages]="{
       required: 'This field is required', 
@@ -31,4 +33,4 @@
 
   <button type="submit" (click)="submit()">Submit</button>
 </form>
-
+ -->
