@@ -5,7 +5,7 @@
     </app-error-message>
 </div> -->
 
-<form [formGroup]="form">
+<!-- <form [formGroup]="form">
   <d-input-number [control]="form.controls['number']" [min]="0" [max]="100" [hideArrows]="true" [maxLength]="10"
     [allowDecimal]="true" [errorMessages]="{
       required: 'This field is required', 
@@ -29,6 +29,50 @@
     }">
   </d-input-password>
 
-  <button type="submit" (click)="submit()">Submit</button>
-</form>
+  <button type="submit" (click)="submit()">Submit</button> -->
+
+
+<!-- <form [formGroup]="form">
+  @for(checkbox of checkboxList; track $index){
+    <app-custom-checkbox 
+    [formGroup]="form" 
+    [checkboxKey]="checkbox.key"
+    [label]="checkbox.label">
+  </app-custom-checkbox>
+     }
+  <button mat-button (click)="submitForm()" type="submit">Submit</button>
+</form> -->
+
+<!-- <form [formGroup]="form">
+  <app-custom-checkbox 
+    [formGroup]="form" 
+    [checkboxKey]="'simple'"
+    [label]="'Simple Checkbox'">
+  </app-custom-checkbox>
+
+  <app-custom-checkbox
+    [formGroup]="form"
+    [checkboxKey]="'parent-child'"
+    [label]="'Select All'"
+    [children]="childCheckboxes">
+  </app-custom-checkbox>
+
+  <button mat-button (click)="submitForm()" type="submit">Submit</button>
+</form> -->
+
+
+
+<app-timer [duration]="120" (timerEnd)="onTimerEnd()">
+  <ng-template let-time="remainingTime" let-formatted="formattedTime" let-reset="reset">
+    @if (time > 0) {
+      Resend OTP in <strong>{{ formatted }}</strong>.
+    } @else {
+      <button (click)="reset()">Resend OTP</button>
+    }
+  </ng-template>
+</app-timer>
+
+
+
+
 
