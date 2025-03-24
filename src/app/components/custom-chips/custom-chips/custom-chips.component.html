@@ -11,15 +11,8 @@
             </mat-chip-row>
             }
         </mat-chip-grid>
-        <input 
-        placeholder="Add item..." 
-        #input 
-        [matChipInputFor]="chipGrid" 
-        [matAutocomplete]="auto"
-        (input)="filterOptions($event)"
-        (keydown.enter)="addFirstFilteredOption($event)" />
-    
-    
+        <input placeholder="Add item..." #input [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+            (input)="filterOptions($event)" (keydown.enter)="addFirstFilteredOption($event)" />
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
             @for(option of filteredOptions; track $index){
             <mat-option [value]="option">
@@ -27,9 +20,9 @@
             </mat-option>
             }
             @if(filteredOptions.length === 0) {
-                <mat-option disabled>
-                    No data found
-                </mat-option>
+            <mat-option disabled>
+                No data found
+            </mat-option>
             }
         </mat-autocomplete>
     </mat-form-field>

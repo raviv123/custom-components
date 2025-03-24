@@ -1,8 +1,16 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,7 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     CommonModule,
     MatAutocompleteModule,
-    MatChipsModule
+    MatChipsModule,
   ],
   templateUrl: './custom-chips.component.html',
   styleUrl: './custom-chips.component.scss',
@@ -57,7 +65,7 @@ export class CustomChipsComponent implements OnInit {
 
   filterOptions(event: any) {
     const filterValue = event.target.value.toLowerCase();
-    this.filteredOptions = this.options.filter(option =>
+    this.filteredOptions = this.options.filter((option) =>
       option.toLowerCase().includes(filterValue)
     );
   }
@@ -85,7 +93,7 @@ export class CustomChipsComponent implements OnInit {
 
   updateChips() {
     this.formControl.setValue([...this.chips]);
-    this.chipsChanged.emit([...this.chips]); 
+    this.chipsChanged.emit([...this.chips]);
   }
 
   resetFilter() {
