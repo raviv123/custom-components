@@ -59,7 +59,10 @@ export class AppComponent {
   //     this.form.reset();
   //   }
   // }
-
+value(event:any){
+  console.log(event);
+  
+}
   form = new FormGroup({
     dropdown: new FormControl(''),
   });

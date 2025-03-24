@@ -33,6 +33,6 @@
 </form> -->
 
 <form [formGroup]="form">
-  <d-custom-dropdown [control]="form.controls['dropdown']" [options]="options" [label]="'Select'" [multiple]="true"></d-custom-dropdown>
+  <d-custom-dropdown [control]="form.controls['dropdown']" [options]="options" [label]="'Select'" [multiple]="true" (valueChange)="value($event)"></d-custom-dropdown>
   <button type="submit" (click)="submit()">Submit</button>
 </form>

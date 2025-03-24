@@ -1,6 +1,5 @@
-
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,5 +24,11 @@ export class CustomDropdownComponent {
   @Input() label = 'Select an option';
   @Input() options: { value: string; label: string }[] = [];
   @Input() multiple = false;
+  @Output() valueChange = new EventEmitter<string | string[]>(); 
 
+  ngOnInit() {
+    this.control.valueChanges.subscribe((value) => {
+      this.valueChange.emit(value);
+    });
+  }
 }
