@@ -26,6 +26,11 @@
                 {{ option }}
             </mat-option>
             }
+            @if(filteredOptions.length === 0) {
+                <mat-option disabled>
+                    No data found
+                </mat-option>
+            }
         </mat-autocomplete>
     </mat-form-field>
 </div>
