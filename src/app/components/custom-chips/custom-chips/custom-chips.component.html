@@ -1,1 +1,31 @@
-
+<div [formGroup]="formGroup">
+    <mat-form-field>
+        <mat-label>{{ label }}</mat-label>
+        <mat-chip-grid #chipGrid>
+            @for(chip of chips; track $index){
+            <mat-chip-row (removed)="remove($index)">
+                {{ chip }}
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip-row>
+            }
+        </mat-chip-grid>
+        <input 
+        placeholder="Add item..." 
+        #input 
+        [matChipInputFor]="chipGrid" 
+        [matAutocomplete]="auto"
+        (input)="filterOptions($event)"
+        (keydown.enter)="addFirstFilteredOption($event)" />
+    
+    
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            @for(option of filteredOptions; track $index){
+            <mat-option [value]="option">
+                {{ option }}
+            </mat-option>
+            }
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
