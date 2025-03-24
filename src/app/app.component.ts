@@ -20,8 +20,8 @@ const errorMessages = {
   selector: 'app-root',
   imports: [
     ReactiveFormsModule,
-    CustomInputNumberComponent,
-    CustomInputPasswordComponent,
+    // CustomInputNumberComponent,
+    // CustomInputPasswordComponent,
   ], //ErrorMessageComponent,
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -36,33 +36,33 @@ export class AppComponent {
   //   title = 'dummyProject';
   // }
 
-  form = new FormGroup(
-    {
-      number: new FormControl('', [
-        Validators.required,
-        CustomValidators.minMaxLengthValidator(2, 10),
-      ]),
-      newPassword: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(
-          '^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'
-        ),
-      ]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    },
-    {
-      validators: CustomValidators.fieldsMatchValidator(
-        'newPassword',
-        'confirmPassword'
-      ),
-    }
-  );
+  // form = new FormGroup(
+  //   {
+  //     number: new FormControl('', [
+  //       Validators.required,
+  //       CustomValidators.minMaxLengthValidator(2, 10),
+  //     ]),
+  //     newPassword: new FormControl('', [
+  //       Validators.required,
+  //       Validators.minLength(8),
+  //       Validators.pattern(
+  //         '^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'
+  //       ),
+  //     ]),
+  //     confirmPassword: new FormControl('', [Validators.required]),
+  //   },
+  //   {
+  //     validators: CustomValidators.fieldsMatchValidator(
+  //       'newPassword',
+  //       'confirmPassword'
+  //     ),
+  //   }
+  // );
 
-  submit() {
-    if (this.form.valid) {
-      console.log(this.form.value);
-      this.form.reset();
-    }
-  }
+  // submit() {
+  //   if (this.form.valid) {
+  //     console.log(this.form.value);
+  //     this.form.reset();
+  //   }
+  // }
 }
