@@ -68,10 +68,16 @@ export class CustomChipsComponent implements OnInit {
   }
 
   remove(index: number) {
+    const removedChip = this.chips[index];
     this.chips.splice(index, 1);
     this.updateChips();
+    if (!this.options.includes(removedChip)) {
+      this.options.push(removedChip);
+    }
+  
     this.resetFilter();
   }
+  
 
   filterOptions(event: any) {
     const filterValue = event.target.value.toLowerCase();
@@ -86,12 +92,17 @@ export class CustomChipsComponent implements OnInit {
       this.chips.push(value);
       this.updateChips();
     }
+    
+    this.options = this.options.filter(option => option !== value);
+  
     if (this.inputElement) {
       this.inputElement.nativeElement.value = '';
     }
+    
     this.optionManuallySelected = true;
     this.resetFilter();
   }
+  
 
   resetFilter() {
     this.filteredOptions = [...this.options];
