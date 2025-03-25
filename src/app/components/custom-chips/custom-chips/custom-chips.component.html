@@ -3,7 +3,7 @@
         <mat-label>{{ label }}</mat-label>
         <mat-chip-grid #chipGrid>
             @for(chip of chips; track $index){
-            <mat-chip-row (removed)="remove($index)">
+            <mat-chip-row [removable]="true" (removed)="remove($index)">
                 {{ chip }}
                 <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
@@ -11,9 +11,12 @@
             </mat-chip-row>
             }
         </mat-chip-grid>
-        <input placeholder="Add item..." #input [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
-            (input)="filterOptions($event)" (keydown.enter)="addFirstFilteredOption($event)" />
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <input [placeholder]="placeholder" #input [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (input)="filterOptions($event)"
+            (keydown.enter)="addFirstFilteredOption($event)" (keydown.backspace)="handleKeyDown($event, input)" />
+
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [autoSelectActiveOption]="true">
             @for(option of filteredOptions; track $index){
             <mat-option [value]="option">
                 {{ option }}

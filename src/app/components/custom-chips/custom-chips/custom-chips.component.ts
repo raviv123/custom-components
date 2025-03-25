@@ -36,6 +36,7 @@ export class CustomChipsComponent implements OnInit {
   @Input() options: string[] = [];
   @Input() formControl!: FormControl;
   @Input() formGroup!: FormGroup;
+  @Input() placeholder!: string;
   @Output() chipsChanged = new EventEmitter<string[]>();
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -98,5 +99,15 @@ export class CustomChipsComponent implements OnInit {
 
   resetFilter() {
     this.filteredOptions = [...this.options];
+  }
+
+  handleKeyDown(event: any, inputElement: HTMLInputElement) {
+    if (event.key === 'Backspace' && inputElement.value === '') {
+      event.preventDefault();
+      if (this.chips.length > 0) {
+        this.remove(this.chips.length - 1);
+        inputElement.focus();
+      }
+    }
   }
 }
