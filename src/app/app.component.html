@@ -5,7 +5,22 @@
     </app-error-message>
 </div> -->
 
-<app-timepicker [interval]="120"></app-timepicker>
+<app-timepicker 
+    [interval]="30"
+    [range]="false"
+    [control]="form.controls['time']"
+    [startTimeControl]="form.controls['startTime']"
+    (timeChange)="onTimeChange($event)" 
+    (overlayOpened)="onOverlayOpened()" 
+    (overlayClosed)="onOverlayClosed()" 
+    (timeSelected)="onTimeSelected($event)" 
+    (onBlur)="onBlurEvent()">
+</app-timepicker>
+
+<!-- 
+    [control]="form.controls['time']"
+    [startTimeControl]="form.controls['startTime']"
+    [endTimeControl]="form.controls['endTime']" -->
 
 <!-- <form [formGroup]="form">
   <d-input-number [control]="form.controls['number']" [min]="0" [max]="100" [hideArrows]="true" [maxLength]="10"

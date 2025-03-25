@@ -30,33 +30,20 @@ const errorMessages = {
 export class AppComponent {
   errorMessages: { [key: string]: string } = errorMessages;
 
-  //   userForm: FormGroup = new FormGroup({
-  //     phone: new FormControl('', [Validators.required, Validators.minLength(3),Validators.pattern('^[a-zA-Z]+$'),Validators.maxLength(10)])
-  //   });
 
-  //   title = 'dummyProject';
-  // }
-
+ 
   form = new FormGroup(
     {
-      number: new FormControl('', [
+      time: new FormControl(new Date().setHours(11, 30, 0), [
         Validators.required,
-        CustomValidators.minMaxLengthValidator(2, 10),
       ]),
-      newPassword: new FormControl('', [
+      startTime: new FormControl(new Date().setHours(12, 30, 0), [
         Validators.required,
-        Validators.minLength(8),
-        Validators.pattern(
-          '^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'
-        ),
       ]),
-      confirmPassword: new FormControl('', [Validators.required]),
-    },
-    {
-      validators: CustomValidators.fieldsMatchValidator(
-        'newPassword',
-        'confirmPassword'
-      ),
+      endTime: new FormControl(new Date().setHours(12, 30, 0), [
+        Validators.required,
+      ])
+
     }
   );
 
@@ -65,5 +52,26 @@ export class AppComponent {
       console.log(this.form.value);
       this.form.reset();
     }
+  }
+
+  onTimeChange(event: string | { startTime: string, endTime: string }): void {
+    console.log('Time Change Event:', event);
+  }
+
+  onOverlayOpened(): void {
+    console.log('Overlay Opened Event');
+  }
+
+  onOverlayClosed(): void {
+    console.log('Overlay Closed Event');
+  }
+
+  onTimeSelected(event: string | { startTime: string, endTime: string }): void {
+    console.log('formValue', this.form.value); // The value will now include a Date instance
+    console.log('Time Selected Event:', event);
+  }
+
+  onBlurEvent(): void {
+    console.log('Blur Event');
   }
 }

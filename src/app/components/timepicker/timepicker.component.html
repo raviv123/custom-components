@@ -1,34 +1,34 @@
 <div class="time-picker-wrapper" (click)="$event.stopPropagation()">
     <div *ngIf="!range" class="time-input" (click)="toggleTimePicker()">
-        <input type="text" [value]="timeForm.get('time')?.value" readonly />
+        <input type="text" [value]="(control ? (control.value) : (timeForm.get('time')?.value) | date:'hh:mm a')"  readonly (blur)="onBlurEvent()" />
         <span class="clock-icon">🕒</span>
     </div>
 
     <div *ngIf="range" class="time-range-wrapper">
         <div class="time-input" (click)="toggleTimePickerStart()">
-            <input type="text" [value]="timeForm.get('startTime')?.value" readonly placeholder="Start Time" />
+            <input type="text" [value]=" startTimeControl ? startTimeControl.value : timeForm.get('startTime')?.value | date:'hh:mm a'" readonly placeholder="Start Time" (blur)="onBlurEvent()" />
             <span class="clock-icon">🕒</span>
         </div>
         <div class="time-divider">-</div>
         <div class="time-input" (click)="toggleEndTimePickerEnd()">
-            <input type="text" [value]="timeForm.get('endTime')?.value" readonly placeholder="End Time" />
+            <input type="text" [value]="endTimeControl ? endTimeControl.value : timeForm.get('endTime')?.value | date:'hh:mm a'" readonly placeholder="End Time" (blur)="onBlurEvent()" />
             <span class="clock-icon">🕒</span>
         </div>
     </div>
 
-    <div class="time-picker-container" #timePickerContainer [class.open]="isEndOpen || isStartOpen || isOpen">
+    <div *ngIf="isEndOpen || isStartOpen || isOpen" class="time-picker-container" #timePickerContainer [class.open]="isEndOpen || isStartOpen || isOpen">
         <ul class="time-options">
-            <li *ngFor="let time of amTimeOptions" 
-                [class.selected]="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value"
-                (click)="onTimeSelected(time, isEndOpen)">
-                {{ time }}
-                <span *ngIf="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value" class="tick-mark">✔</span>
+            <li *ngFor="let option of amTimeOptions" 
+                [class.selected]="getSelectedTime(option)"
+                (click)="onTimeSelected(option, isEndOpen)">
+                {{ option }}
+                <span *ngIf="getSelectedTime(option)" class="tick-mark">✔</span>
             </li>
-            <li *ngFor="let time of pmTimeOptions" 
-                [class.selected]="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value"
-                (click)="onTimeSelected(time, isEndOpen)">
-                {{ time }}
-                <span *ngIf="time === timeForm.get(isEndOpen ? 'endTime' : isStartOpen ? 'startTime' : 'time')?.value" class="tick-mark">✔</span>
+            <li *ngFor="let option of pmTimeOptions" 
+                [class.selected]="getSelectedTime(option)"
+                (click)="onTimeSelected(option, isEndOpen)">
+                {{ option }}
+                <span *ngIf="getSelectedTime(option)" class="tick-mark">✔</span>
             </li>
         </ul>
     </div>
