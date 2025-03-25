@@ -11,12 +11,11 @@
             </mat-chip-row>
             }
         </mat-chip-grid>
-        <input [placeholder]="placeholder" #input [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+        <input type="text" [placeholder]="placeholder" #input [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (input)="filterOptions($event)"
             (keydown.enter)="addFirstFilteredOption($event)" (keydown.backspace)="handleKeyDown($event, input)" />
 
-
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [autoSelectActiveOption]="true">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)" [autoSelectActiveOption]="true">
             @for(option of filteredOptions; track $index){
             <mat-option [value]="option">
                 {{ option }}

@@ -1,0 +1,8 @@
+  ::ng-deep .mat-mdc-option:hover {
+    background-color:blanchedalmond !important; 
+  }
+  
+  ::ng-deep .mat-mdc-option.mat-mdc-option-active {
+    background-color:burlywood !important; 
+    font-weight: bold !important;
+  }

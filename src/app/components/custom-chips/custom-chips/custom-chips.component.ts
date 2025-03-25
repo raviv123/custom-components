@@ -1,6 +1,14 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -38,7 +46,8 @@ export class CustomChipsComponent implements OnInit {
   @Input() formGroup!: FormGroup;
   @Input() placeholder!: string;
   @Output() chipsChanged = new EventEmitter<string[]>();
-
+  @ViewChild('input') inputElement!: ElementRef<HTMLInputElement>;
+  optionManuallySelected = false;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   filteredOptions: string[] = [];
   chips: string[] = [];
@@ -77,11 +86,23 @@ export class CustomChipsComponent implements OnInit {
       this.chips.push(value);
       this.updateChips();
     }
+    if (this.inputElement) {
+      this.inputElement.nativeElement.value = '';
+    }
+    this.optionManuallySelected = true;
     this.resetFilter();
   }
 
+  resetFilter() {
+    this.filteredOptions = [...this.options];
+  
+    if (this.inputElement) {
+      this.inputElement.nativeElement.value = '';
+    }
+  }
+
   addFirstFilteredOption(event: any) {
-    if (this.filteredOptions.length > 0) {
+    if (this.filteredOptions.length > 0 && !this.optionManuallySelected) {
       event.preventDefault();
       const firstOption = this.filteredOptions[0];
       if (!this.chips.includes(firstOption)) {
@@ -89,16 +110,13 @@ export class CustomChipsComponent implements OnInit {
         this.updateChips();
       }
     }
+    this.optionManuallySelected = false;
     this.resetFilter();
   }
 
   updateChips() {
     this.formControl.setValue([...this.chips]);
     this.chipsChanged.emit([...this.chips]);
-  }
-
-  resetFilter() {
-    this.filteredOptions = [...this.options];
   }
 
   handleKeyDown(event: any, inputElement: HTMLInputElement) {
