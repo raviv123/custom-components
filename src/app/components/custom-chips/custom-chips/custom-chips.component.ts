@@ -74,10 +74,9 @@ export class CustomChipsComponent implements OnInit {
     if (!this.options.includes(removedChip)) {
       this.options.push(removedChip);
     }
-  
+
     this.resetFilter();
   }
-  
 
   filterOptions(event: any) {
     const filterValue = event.target.value.toLowerCase();
@@ -86,43 +85,56 @@ export class CustomChipsComponent implements OnInit {
     );
   }
 
+  resetFilter() {
+    this.filteredOptions = this.options.filter(
+      (option) => !this.chips.includes(option)
+    );
+
+    if (this.inputElement) {
+      this.inputElement.nativeElement.value = '';
+    }
+  }
+
   selected(event: MatAutocompleteSelectedEvent) {
     const value = event.option.viewValue;
     if (!this.chips.includes(value)) {
       this.chips.push(value);
       this.updateChips();
     }
-    
-    this.options = this.options.filter(option => option !== value);
-  
-    if (this.inputElement) {
-      this.inputElement.nativeElement.value = '';
-    }
-    
-    this.optionManuallySelected = true;
-    this.resetFilter();
-  }
-  
+    this.options = this.options.filter((option) => option !== value);
+    this.filteredOptions = this.filteredOptions.filter(
+      (option) => option !== value
+    );
 
-  resetFilter() {
-    this.filteredOptions = [...this.options];
-  
     if (this.inputElement) {
       this.inputElement.nativeElement.value = '';
     }
+    this.optionManuallySelected = true;
   }
 
   addFirstFilteredOption(event: any) {
     if (this.filteredOptions.length > 0 && !this.optionManuallySelected) {
-      event.preventDefault();
-      const firstOption = this.filteredOptions[0];
-      if (!this.chips.includes(firstOption)) {
-        this.chips.push(firstOption);
-        this.updateChips();
+      const activeOption = document.querySelector('.mat-mdc-option-active');
+      if (activeOption) {
+        return;
+      }
+      if (event.target.value.trim().length > 0) {
+        event.preventDefault();
+        const firstOption = this.filteredOptions[0];
+
+        if (!this.chips.includes(firstOption)) {
+          this.chips.push(firstOption);
+          this.updateChips();
+        }
+        this.options = this.options.filter((option) => option !== firstOption);
+        this.filteredOptions = this.filteredOptions.filter(
+          (option) => option !== firstOption
+        );
+
+        this.resetFilter();
       }
     }
     this.optionManuallySelected = false;
-    this.resetFilter();
   }
 
   updateChips() {

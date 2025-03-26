@@ -1,7 +1,7 @@
 <div [formGroup]="formGroup">
     <mat-form-field>
         <mat-label>{{ label }}</mat-label>
-        <mat-chip-grid #chipGrid>
+        <mat-chip-grid #chipGrid [formControl]="formControl">
             @for(chip of chips; track $index){
             <mat-chip-row [removable]="true" (removed)="remove($index)">
                 {{ chip }}
