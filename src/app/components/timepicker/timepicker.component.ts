@@ -17,6 +17,9 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
   @Input() initialTime: string = '12:00 PM';
   @Input() range: boolean = false;
   @Input() interval: number = 15; // Interval in minutes, default to 30 minutes
+  @Input() use24HourFormat: boolean = false; // New property to toggle 24-hour format
+  @Input() restrictEndTime: boolean = true; // New property to enable/disable end time restriction
+  @Input() showTimeGapInEndList: boolean = true   ; // New property to enable/disable time gap display in end time list
   @Output() timeChange = new EventEmitter<string | { startTime: string, endTime: string }>();
   @Output() overlayOpened = new EventEmitter<void>(); // Event for overlay opening
   @Output() overlayClosed = new EventEmitter<void>(); // Event for overlay closing
@@ -26,8 +29,7 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
   @ViewChild('timePickerContainer') timePickerContainer!: ElementRef;
 
   timeForm!: FormGroup;
-  amTimeOptions: string[] = [];
-  pmTimeOptions: string[] = [];
+  timeOptions: string[] = []; // Combined list of time options
   isOpen: boolean = false;
   isEndOpen: boolean = false;
   isStartOpen: boolean = false;
@@ -37,22 +39,21 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder,
     private renderer: Renderer2,
     private elRef: ElementRef
-  ) {
-    
-    this.generateTimeOptions();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this._subscribeToOverlayOpen();
   }
 
   ngOnInit(): void {
-    if (!this.control && (!this.startTimeControl || !this.endTimeControl)) {
-      this.timeForm = this.fb.group({
-        time: [this._convertToDate(new Date().setHours(12, 30, 0)), Validators.required],
+    if ((!this.control || (this.range && (!this.startTimeControl && !this.endTimeControl))) && (!this.startTimeControl || !this.endTimeControl)) {
+      this.timeForm = this.fb.group(this.range ? {
         startTime: [this._convertToDate(new Date().setHours(12, 30, 0)), Validators.required],
         endTime: [this._convertToDate(new Date().setHours(12, 30, 0)), Validators.required]
+      } : {
+        time: [this._convertToDate(new Date().setHours(12, 30, 0)), Validators.required]
       });
+    this.generateTimeOptions();
       return;
     }
 
@@ -69,9 +70,8 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
       this.endTimeControl.setValue(this._convertToDate(this.endTimeControl.value));
     }
 
-    if (this.initialTime) {
-      // this.timeForm.patchValue({ time: this.initialTime });
-    }
+
+    this.generateTimeOptions();
   }
 
   private _convertToDate(value: string | number): Date {
@@ -118,15 +118,67 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
   }
 
   generateTimeOptions(): void {
-    this.amTimeOptions = [];
-    this.pmTimeOptions = [];
-    for (let hour = 1; hour <= 12; hour++) {
-      for (let minute = 0; minute < 60; minute += this.interval) {
-        const formattedMinute = minute < 10 ? `0${minute}` : `${minute}`;
-        this.amTimeOptions.push(`${hour < 10 ? '0'+ hour : hour}:${formattedMinute} AM`);
-        this.pmTimeOptions.push(`${hour < 10 ? '0'+ hour : hour}:${formattedMinute} PM`);
+    this.timeOptions = [];
+    debugger
+    for (let hour = 0; hour < 24; hour++) {
+      for (let minute = 0; minute < 60; minute = minute + this.interval) {
+        const formattedHour = this.use24HourFormat
+          ? hour.toString().padStart(2, '0')
+          : ((hour % 12) || 12).toString().padStart(2, '0');
+        const formattedMinute = minute.toString().padStart(2, '0');
+        const period = this.use24HourFormat ? '' : hour < 12 ? ' AM' : ' PM';
+        this.timeOptions.push(`${formattedHour}:${formattedMinute}${period}`);
       }
     }
+  }
+
+  getFilteredTimeOptions(): string[] {
+    const startTime = this.timeForm.get('startTime')?.value as Date;
+
+    // If showTimeGapInEndList is true, generate options with time gaps
+    if (this.showTimeGapInEndList) {
+      const filteredOptions: string[] = [];
+      let gapMinutes = this.interval;
+
+      for (const option of this.timeOptions) {
+        const optionDate = this._getDateWithTime(option);
+
+        if (!startTime || (this.restrictEndTime && optionDate <= startTime)) {
+          // If restrictEndTime is true, skip options earlier than or equal to the selected start time
+          if (this.restrictEndTime) continue;
+
+          // Include options earlier than or equal to the selected start time without time gap
+          filteredOptions.push(option);
+        } else {
+          // Include options after the selected start time with time gap
+          const gapHours = Math.floor(gapMinutes / 60);
+          const gapRemainderMinutes = gapMinutes % 60;
+          const gapLabel = gapHours > 0
+            ? `${gapHours} Hour${gapHours > 1 ? 's' : ''}${gapRemainderMinutes > 0 ? ` ${gapRemainderMinutes} Minutes` : ''}`
+            : `${gapRemainderMinutes} Minutes`;
+
+          filteredOptions.push(`${option} (${gapLabel})`);
+          gapMinutes += this.interval; // Increment the gap for the next option
+        }
+      }
+
+      return filteredOptions;
+    }
+
+    // Default behavior: Return all options if restrictEndTime is false
+    if (!this.restrictEndTime) {
+      return this.timeOptions;
+    }
+
+    // Filter options to exclude times earlier than the selected start time
+    if (startTime) {
+      return this.timeOptions.filter((option) => {
+        const optionDate = this._getDateWithTime(option);
+        return optionDate > startTime; // Only include times later than the selected start time
+      });
+    }
+
+    return this.timeOptions; // Return all options if no start time is selected
   }
 
   getSelectedTime(selected: string): boolean {
@@ -137,14 +189,15 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
       : this.control?.value || this.timeForm?.get('time')?.value;
 
     if (dateInstance instanceof Date) {
-      return selected === dateInstance.toLocaleTimeString('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      }); // Format the Date instance to '12:00 PM'
+      const hours = this.use24HourFormat
+        ? dateInstance.getHours().toString().padStart(2, '0')
+        : ((dateInstance.getHours() % 12) || 12).toString().padStart(2, '0');
+      const minutes = dateInstance.getMinutes().toString().padStart(2, '0');
+      const period = this.use24HourFormat ? '' : dateInstance.getHours() < 12 ? ' AM' : ' PM';
+      return selected === `${hours}:${minutes}${period}`;
     }
 
-    return false; // Return an empty string if no valid Date instance is found
+    return false;
   }
 
   toggleTimePicker(): void {
@@ -215,7 +268,11 @@ export class TimepickerComponent implements OnInit, AfterViewInit {
     const [hoursMinutes, period] = time.split(' ');
     const [hours, minutes] = hoursMinutes.split(':').map(Number);
     const date = new Date();
-    date.setHours(period === 'PM' && hours !== 12 ? hours + 12 : hours === 12 && period === 'AM' ? 0 : hours);
+    if (this.use24HourFormat) {
+      date.setHours(hours);
+    } else {
+      date.setHours(period === 'PM' && hours !== 12 ? hours + 12 : hours === 12 && period === 'AM' ? 0 : hours);
+    }
     date.setMinutes(minutes);
     date.setSeconds(0);
     date.setMilliseconds(0);

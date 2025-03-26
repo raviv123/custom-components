@@ -7,10 +7,9 @@
 
 <app-timepicker 
     [interval]="30"
-    [range]="false"
-    [control]="form.controls['time']"
-    [startTimeControl]="form.controls['startTime']"
+    [range]="true"
     (timeChange)="onTimeChange($event)" 
+    [use24HourFormat]="false"
     (overlayOpened)="onOverlayOpened()" 
     (overlayClosed)="onOverlayClosed()" 
     (timeSelected)="onTimeSelected($event)" 
