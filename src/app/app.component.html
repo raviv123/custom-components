@@ -32,6 +32,6 @@
   <button type="submit" (click)="submit()">Submit</button>
 </form> -->
 <form [formGroup]="form">
-<d-custom-chips [label]="'List'" [options]="fruitOptions" [placeholder]="'Add items...'" [formGroup]="form" [formControl]="form.controls.chips" (chipsChanged)="chips($event)"></d-custom-chips>
+<d-custom-chips [label]="'List'" [options]="fruitOptions" [placeholder]="'Add items...'" [formGroup]="form" [control]="form.controls.chips" (chipsChanged)="chips($event)"></d-custom-chips>
 <button type="submit" (click)="submit()">Submit</button>
 </form>

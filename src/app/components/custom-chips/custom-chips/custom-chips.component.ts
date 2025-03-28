@@ -42,7 +42,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class CustomChipsComponent implements OnInit {
   @Input() label: string = '';
   @Input() options: string[] = [];
-  @Input() formControl!: FormControl;
+  @Input() control!: FormControl;
   @Input() formGroup!: FormGroup;
   @Input() placeholder!: string;
   @Output() chipsChanged = new EventEmitter<string[]>();
@@ -54,7 +54,7 @@ export class CustomChipsComponent implements OnInit {
 
   ngOnInit() {
     this.filteredOptions = [...this.options];
-    this.chips = this.formControl.value || [];
+    this.chips = this.control.value || [];
   }
 
   add(event: MatChipInputEvent) {
@@ -138,7 +138,7 @@ export class CustomChipsComponent implements OnInit {
   }
 
   updateChips() {
-    this.formControl.setValue([...this.chips]);
+    this.control.setValue([...this.chips]);
     this.chipsChanged.emit([...this.chips]);
   }
 
