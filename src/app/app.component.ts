@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
-import { PhoneNumberComponent } from './components/phoneNumber/phone-number/phone-number.component';
+import { PhoneNumberComponent } from './components/phoneNumber/phone-number.component';
 
 @Component({
   selector: 'app-root',
@@ -18,12 +19,12 @@ import { PhoneNumberComponent } from './components/phoneNumber/phone-number/phon
 export class AppComponent {
 
   form = new FormGroup({
-    phone: new FormControl(''),
+    phone: new FormControl('', [Validators.required]),
     });
 
   submit() {
     if (this.form.valid) {
-      console.log(this.form.value);
+      console.log(this.form.value.phone );
     }
   }
 }
