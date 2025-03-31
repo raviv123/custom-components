@@ -1,24 +1,25 @@
 <div class="phone-input-container">
   <div class="country-selector" (click)="toggleDropdown()">
-    <img src="../../../../../public/favicon.ico" class="flag" alt="Flag"/>
+    <!-- <img src="../../../assets/images/india.png" class="flag" alt="Flag"/> -->
     <span>+{{ selectedCountry.dialCode }}</span>
     <span class="dropdown-arrow">▼</span>
   </div>
 
-  <input type="text" [formControl]="phoneControl" placeholder="Enter phone number" (input)="onPhoneInput($event)" />
-
+  <input type="text" [formControl]="phoneControl" placeholder="Enter phone number" (input)="onPhoneInput($event)"
+  (paste)="onPaste($event)" />
+  
   @if(dropdownOpen){
-  <div class="dropdown">
-    <input type="text" [(ngModel)]="searchText" placeholder="Search country" />
-    <ul>
-      @for(country of filteredCountries(); track $index){
-      <li (click)="selectCountry(country)">
-        <!-- <img [src]="country.flag" class="flag" alt="Flag1"/> -->
-        <span>{{ country.name }}</span>
-        <span>+{{ country.dialCode }}</span>
-      </li>
-      }
-    </ul>
-  </div>
+    <div class="dropdown">
+      <input type="text" [(ngModel)]="searchText" placeholder="Search country" />
+      <ul>
+        @for(country of filteredCountries(); track $index){
+          <li (click)="selectCountry(country)">
+            <!-- <img [src]="country.flag" class="flag" alt="Flag1"/> -->
+            <span>{{ country.name }}</span>
+            <span>+{{ country.dialCode }}</span>
+          </li>
+        }
+      </ul>
+    </div>
   }
 </div>
