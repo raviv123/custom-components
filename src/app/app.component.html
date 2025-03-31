@@ -1,34 +1,5 @@
-<!-- <div [formGroup]="userForm">
-    <input type="text" formControlName="phone"/>
-    <app-error-message [control]="userForm.controls['phone']"
-        [validation]="{ messages: errorMessages || { required: 'This is required' }, errors: userForm.controls['phone'].errors }">
-    </app-error-message>
-</div> -->
-
 <form [formGroup]="form">
-  <d-input-number [control]="form.controls['number']" [min]="0" [max]="100" [hideArrows]="true" [maxLength]="10"
-    [allowDecimal]="true" [errorMessages]="{
-      required: 'This field is required', 
-      minlength: 'Min length required'
-    }">
-  </d-input-number>
-
-  <d-input-password [placeholder]="'Enter Password'" [maxLength]="20" [minLength]="8"
-    [pattern]="'^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'" [control]="form.controls['newPassword']"
-    [errorMessages]="{
-      invalidPattern: 'Invalid characters used', 
-      required: 'This field is required'
-    }">
-  </d-input-password>
-
-  <d-input-password [placeholder]="'Confirm Password'" [maxLength]="20" [minLength]="8"
-    [pattern]="'^(?=.*\\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$'" [control]="form.controls['confirmPassword']"
-    [errorMessages]="{
-      invalidPattern: 'Invalid characters used', 
-      required: 'This field is required'
-    }">
-  </d-input-password>
-
+  <app-phone-number [phoneControl]="form.controls.phone"></app-phone-number>  
   <button type="submit" (click)="submit()">Submit</button>
 </form>
 

@@ -1,0 +1,62 @@
+.phone-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+    position: relative;
+    width: 300px;
+  }
+  
+  .country-selector {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .flag {
+    width: 24px;
+    height: 16px;
+    margin-right: 5px;
+  }
+  
+  .dropdown-arrow {
+    margin-left: auto;
+  }
+  
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px;
+  }
+  
+  .dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background: white;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdown li {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+  }
+  
+  .dropdown li:hover {
+    background: #eee;
+  }
+  
